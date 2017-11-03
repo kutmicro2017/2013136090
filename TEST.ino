@@ -1,4 +1,3 @@
-
 #define R1 12
 #define Y1 11
 #define G1 10  //상하 신호등
@@ -6,8 +5,8 @@
 #define Y2 16
 #define G2 17 //좌우 신호등
 
-#define TimeY 5 // sec단위로 적고
-#define TimeG 10000 //sec*1000 해서 적기
+#define TimeY 3 // sec단위로 적고
+#define TimeG 6000 //sec*1000 해서 적기
 #define TimeS 10
 
 #define buttonA 2
@@ -190,16 +189,16 @@ void loop() {
   if(bstate == 0){      //보행자 신호를 입력 받지않았을 경우
     for(int i = 0; i<TimeY; i++){
       digitalWrite(Y1, HIGH);
-     delay_a(500);
+     delay_a(375);
      digitalWrite(Y1, LOW);\
-     delay_a(500);
+     delay_a(375);
    }
   }else if(bstate == 1){    //보행자 신호를 입력 받았을 경우
     for(int i = 0; i<3; i++){
      digitalWrite(Y1, HIGH);
-     delay_a(500);
+     delay_a(375);
      digitalWrite(Y1, LOW);
-     delay_a(500);
+     delay_a(375);
      //고
    }
    bstate = 0;
@@ -207,27 +206,29 @@ void loop() {
   digitalWrite(R1, HIGH);
   //전환
   sstate = 2; // 2번라인
-  numberd = 10;
+  numberd = 8;
   digitalWrite(R2, LOW);
   digitalWrite(G2, HIGH);
   delay_a(TimeG);
   if(bstate == 2){
-    numberd = 10;
+    numberd = 8;
     delay_a(TimeG);
+    bstate = 0;
   }
   digitalWrite(G2, LOW);
-  
+
+  sstate = 1;
   if(bstate == 0){
    for(int i = 0; i<TimeY; i++){     //즉 i 하나에 1초
      digitalWrite(Y2, HIGH);
-      delay_a(500);
+      delay_a(375);
       digitalWrite(Y2, LOW);
-     delay_a(500);
+     delay_a(375);
     }
    }
 }
 void delay_a(int sec){
-  int k = 25;
+  int k = 15;
   for(int i = sec / k ; i>0 ; i--){
     if(sstate == 1){
       printSignalMatrix(0);
@@ -237,8 +238,8 @@ void delay_a(int sec){
       printSignalMatrix(1);
       printNumMatrix(numberd);
       
-      if(timec <1000) timec += k;
-      else if(timec > 999){
+      if(timec <750) timec += k;
+      else if(timec > 749){
        timec = 0;
        if(numberd == 0) numberd = 0;
        else numberd -= 1;
